@@ -13,6 +13,8 @@ dependencies = [
     "llm>=0.15",
     "pytest>=8.3.2",
     "llm-gemini>=0.1a4",
+    "typer>=0.12.5",
+    "jinja2>=3.1.4",
 ]
 
 [build-system]

@@ -1,0 +1,26 @@
+🔗 -------- Prompt Chain Result #1 -------------
+
+```mermaid
+graph LR
+    subgraph "Setup"
+        A["Install uv"] --> B["Install dependencies: <br> uv sync"]
+        B --> C{"Set OpenAI API key: <br> export OPENAI_API_KEY=<your_api_key>"}
+    end
+    C --> D("Optionally setup <br> other API keys")
+    D --> E("Docs on gemini models")
+    E --> F("Get latest models")
+```
+
+
+🔗🔗 -------- Prompt Chain Result #2 -------------
+
+graph LR
+    subgraph "Setup"
+        A["Install uv"] --> B["Install dependencies:<br> uv sync"]
+        B --> C{"Set OpenAI API key:<br> export OPENAI_API_KEY=<your_api_key>"}
+    end
+    C --> D("Optionally setup<br> other API keys")
+    D --> E("Docs on Gemini models")
+    E --> F("Get latest models")
+
+

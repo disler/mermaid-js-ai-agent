@@ -1,43 +1,6 @@
-import base64
-import requests
-from PIL import Image, UnidentifiedImageError
-import io
-from mermaid_agent.modules import llm_module
-from mermaid_agent.modules import mermaid
-from mermaid_agent.modules import chain
+🔗 -------- Prompt Chain Result #1 -------------
 
-import typer
-from jinja2 import Template
-
-app = typer.Typer()
-
-
-@app.command()
-def test():
-    print("test command")
-
-
-@app.command()
-def mer(
-    prompt: str = typer.Option(
-        ..., "--prompt", "-p", help="The prompt for generating the Mermaid chart"
-    ),
-    output_file: str = typer.Option(
-        "mermaid.png", "--output", "-o", help="Output file name for the generated chart"
-    ),
-    input_file: str = typer.Option(
-        None, "--input", "-i", help="Input file containing additional content"
-    ),
-):
-
-    gemini_1_5_pro, gemini_1_5_flash = llm_module.build_gemini_duo()
-
-    file_content = ""
-    if input_file:
-        with open(input_file, "r") as file:
-            file_content = file.read()
-
-    mermaid_prompt_1 = """You are a world-class expert at creating mermaid charts.
+You are a world-class expert at creating mermaid charts.
 
 You follow the instructions perfectly to generate mermaid charts.
 
@@ -50,11 +13,26 @@ You follow the instructions perfectly to generate mermaid charts.
     <instruction>If you see a <file-content> section, use the content to help create the chart.</instruction>
 </instructions>
 
-[~ if file_content ~]
+
 <file-content>
-    {{file_content}}
+    # Mermaid Agent
+
+## Setup
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Install dependencies `uv sync`
+- Set your OpenAI API key as an environment variable `export OPENAI_API_KEY=<your_api_key>`
+- Optionally setup 
+  - Optionally set ANTHROPIC_API_KEY, VERTEX_API_KEY, GROQ_API_KEY as environment variables. See `.env.sample` for details.
+
+## Docs on gemini models
+- https://ai.google.dev/api/models#models_list-SHELL
+- Run this to get the latest models:
+  - `export GOOGLE_API_KEY=<FILL IN HERE>`
+  - `curl "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"`  
+
+
 </file-content>
-[~ endif ~]
+
 
 <examples>
     <example>
@@ -122,12 +100,14 @@ You follow the instructions perfectly to generate mermaid charts.
 </examples>
 
 <user-prompt>
-    {{ user_prompt }}
+    
 </user-prompt>
 
-Your mermaid chart:"""
+Your mermaid chart:
 
-    mermaid_prompt_2 = """You are a world-class expert at creating mermaid charts.
+🔗🔗 -------- Prompt Chain Result #2 -------------
+
+You are a world-class expert at creating mermaid charts.
 
 Your co-worker has just generated a mermaid chart.
 
@@ -145,40 +125,18 @@ If you see any mistakes, be very precise in what the mistakes are.
 </instructions>
 
 <mermaid-chart>
-    {{output[-1]}}
+    ```mermaid
+graph LR
+    subgraph "Setup"
+        A["Install uv"] --> B["Install dependencies: <br> uv sync"]
+        B --> C{"Set OpenAI API key: <br> export OPENAI_API_KEY=<your_api_key>"}
+    end
+    C --> D("Optionally setup <br> other API keys")
+    D --> E("Docs on gemini models")
+    E --> F("Get latest models")
+```
+
 </mermaid-chart>
 
-Your critique of the mermaid chart:"""
+Your critique of the mermaid chart:
 
-    context = {"user_prompt": prompt, "file_content": file_content}
-    conditional_context = {"file_content": file_content}
-
-    # Render the template with the context
-    rendered_mermaid_prompt_1 = Template(
-        mermaid_prompt_1, block_start_string="[~", block_end_string="~]"
-    ).render(conditional_context)
-
-    prompt_response, ctx_filled_prompts = chain.MinimalChainable.run(
-        context,
-        gemini_1_5_pro,
-        llm_module.prompt,
-        prompts=[rendered_mermaid_prompt_1, mermaid_prompt_2],
-    )
-
-    chain.MinimalChainable.to_delim_text_file(
-        "mermaid_prompt_1_results", prompt_response
-    )
-
-    chain.MinimalChainable.to_delim_text_file(
-        "mermaid_prompt_1_ctx_filled_prompts", ctx_filled_prompts
-    )
-
-    res = llm_module.parse_markdown_backticks(prompt_response[-1])
-
-    print(res)
-
-    mermaid.mm(res, output_file)
-
-
-def main():
-    app()

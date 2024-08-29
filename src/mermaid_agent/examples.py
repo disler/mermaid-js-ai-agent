@@ -70,3 +70,11 @@ classDiagram
         +run()
     }
 """
+
+# Prompt: Build a simple mermaid chart for a pie chart that shows the distribution of the top 3 fruits. Return the mermaid chart only.
+llm_pie = """
+pie title Favorite Fruits
+    "Apples" : 40
+    "Bananas" : 35
+    "Oranges" : 25
+"""

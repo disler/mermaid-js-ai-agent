@@ -1,5 +1,12 @@
 # Mermaid Agent
 
+## Setup
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Install dependencies `uv sync`
+- Set your OpenAI API key as an environment variable `export OPENAI_API_KEY=<your_api_key>`
+- Optionally setup 
+  - Optionally set ANTHROPIC_API_KEY, VERTEX_API_KEY, GROQ_API_KEY as environment variables. See `.env.sample` for details.
+
 ## Docs on gemini models
 - https://ai.google.dev/api/models#models_list-SHELL
 - Run this to get the latest models:
