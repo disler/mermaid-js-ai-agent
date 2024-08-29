@@ -1,0 +1,192 @@
+🔗 -------- Prompt Chain Result #1 -------------
+
+You are a world-class expert at creating and modifying mermaid charts.
+
+You have been given a current mermaid chart and a request for changes. Your task is to update the chart according to the requested changes.
+
+<instructions>
+    <instruction>Analyze the current mermaid chart and the requested changes.</instruction>
+    <instruction>Update the mermaid chart to incorporate the requested changes.</instruction>
+    <instruction>Ensure the updated chart still fulfills the original base prompt.</instruction>
+    <instruction>Respond with the updated mermaid chart only.</instruction>
+    <instruction>Do not wrap the mermaid chart in markdown code blocks.</instruction>
+</instructions>
+
+<current-mermaid-chart>
+
+</current-mermaid-chart>
+
+<base-prompt>
+
+</base-prompt>
+
+<change-request>
+
+</change-request>
+
+
+<file-content>
+from mermaid_agent import mermaid_agent
+from mermaid_agent.modules import llm_module
+from mermaid_agent.modules import mermaid
+from mermaid_agent.modules import chain
+from mermaid_agent.modules.typings import (
+    OneShotMermaidParams,
+    IterateMermaidParams,
+    MermaidAgentResponse,
+)
+
+import typer
+from jinja2 import Template
+from PIL import Image
+
+app = typer.Typer()
+
+# Constants for reusable options
+PROMPT_OPTION = typer.Option(
+    ..., "--prompt", "-p", help="The prompt for generating the Mermaid chart"
+)
+OUTPUT_FILE_OPTION = typer.Option(
+    "mermaid.png", "--output", "-o", help="Output file name for the generated chart"
+)
+INPUT_FILE_OPTION = typer.Option(
+    None, "--input", "-i", help="Input file containing additional content"
+)
+
+
+@app.command()
+def test():
+    print("test command")
+
+
+@app.command()
+def mer(
+    prompt: str = PROMPT_OPTION,
+    output_file: str = OUTPUT_FILE_OPTION,
+    input_file: str = INPUT_FILE_OPTION,
+):
+    params = OneShotMermaidParams(
+        prompt=prompt, output_file=output_file, input_file=input_file
+    )
+    response: MermaidAgentResponse = mermaid_agent.one_shot_mermaid_agent(params)
+    if response.img:
+        mermaid.show_image(response.img)
+    return response
+
+
+@app.command()
+def mer_iter(
+    prompt: str = PROMPT_OPTION,
+    output_file: str = OUTPUT_FILE_OPTION,
+    input_file: str = INPUT_FILE_OPTION,
+):
+    params = OneShotMermaidParams(
+        prompt=prompt, output_file=output_file, input_file=input_file
+    )
+    response: MermaidAgentResponse = mermaid_agent.one_shot_mermaid_agent(params)
+    if response.img:
+        mermaid.show_image(response.img)
+    else:
+        raise Exception("Failed to generate Mermaid chart")
+
+    iterate_params = IterateMermaidParams(
+        change_prompt="",
+        base_prompt=prompt,
+        current_mermaid_chart=response.mermaid,
+        current_mermaid_img=response.img,
+        output_file=output_file,
+        input_file=input_file,
+    )
+
+    while True:
+        user_input = input(
+            "Would you like to make any changes? (Enter change request or 'n'/'no'/'e' to exit): "
+        )
+        if user_input.lower() in ["n", "no", "e"]:
+            break
+
+        iterate_params.change_prompt = user_input
+
+        response = mermaid_agent.iterate_mermaid_agent(iterate_params)
+        iterate_params.current_mermaid_chart = response.mermaid
+        if response.img:
+            iterate_params.current_mermaid_img = response.img
+            mermaid.show_image(iterate_params.current_mermaid_img)
+
+    return response
+
+
+def main():
+    app()
+
+</file-content>
+
+
+Your updated mermaid chart:
+
+🔗🔗 -------- Prompt Chain Result #2 -------------
+
+You are a world-class expert at creating and reviewing mermaid charts.
+
+Your co-worker has just updated a mermaid chart based on requested changes. Your task is to review the updated chart to ensure it's correct and incorporates the requested changes.
+
+<instructions>
+    <instruction>Review the updated chart to ensure it's correct and incorporates the requested changes.</instruction>
+    <instruction>Be very precise in your critique.</instruction>
+    <instruction>If you see any mistakes or missing changes, correct them.</instruction>
+    <instruction>Ensure the updated chart still fulfills the original base prompt.</instruction>
+    <instruction>Respond with the final mermaid chart only.</instruction>
+    <instruction>Do not wrap the mermaid chart in markdown code blocks.</instruction>
+</instructions>
+
+<updated-mermaid-chart>
+```mermaid
+sequenceDiagram
+    participant User
+    participant Application
+    participant MermaidAgent
+    participant LLM_Module
+    participant ImageProcessor
+
+    User->>Application: Run the "mer" command
+    Application->>MermaidAgent: one_shot_mermaid_agent(params)
+    MermaidAgent->>LLM_Module: Generate Mermaid Chart
+    LLM_Module->>MermaidAgent: Return Mermaid Chart
+    MermaidAgent->>ImageProcessor: Convert Mermaid to Image
+    ImageProcessor->>MermaidAgent: Return Image
+    MermaidAgent->>Application: Response with Mermaid Chart and Image
+    Application-->>User: Display Generated Image
+
+    User->>Application: Run the "mer_iter" command
+    Application->>MermaidAgent: one_shot_mermaid_agent(params)
+    MermaidAgent->>ImageProcessor: Convert Mermaid to Image
+    ImageProcessor->>MermaidAgent: Return Image
+    MermaidAgent->>Application: Response with Mermaid Chart and Image
+    Application-->>User: Display Generated Image
+
+    loop User Modifications
+        User->>Application: Enter change request
+        Application->>MermaidAgent: iterate_mermaid_agent(iterate_params)
+        MermaidAgent->>LLM_Module: Update Mermaid Chart
+        LLM_Module->>MermaidAgent: Return Updated Chart
+        MermaidAgent->>ImageProcessor: Convert Updated Mermaid to Image
+        ImageProcessor->>MermaidAgent: Return New Image
+        MermaidAgent->>Application: Response with Updated Chart and Image
+        Application-->>User: Display Updated Image
+    end
+
+    User->>Application: Exit Iteration
+```
+
+</updated-mermaid-chart>
+
+<base-prompt>
+create a state diagram explaining how the mer_iter function works
+</base-prompt>
+
+<change-request>
+focus on the high level
+</change-request>
+
+Your final mermaid chart:
+

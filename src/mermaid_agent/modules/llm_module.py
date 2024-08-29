@@ -1,9 +1,16 @@
 import llm
 from dotenv import load_dotenv
 import os
+from jinja2 import Template
 
 # Load environment variables from .env file
 load_dotenv()
+
+
+def jinja_cond_render(prompt, context, start_delim="[~", end_delim="~]"):
+    return Template(
+        prompt, block_start_string=start_delim, block_end_string=end_delim
+    ).render(context)
 
 
 def parse_markdown_backticks(str) -> str:
@@ -33,6 +40,13 @@ def build_models():
     sonnet_3_5_model.key = ANTHROPIC_API_KEY
 
     return sonnet_3_5_model
+
+
+def build_mini_model():
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    gpt4_o_mini_model: llm.Model = llm.get_model("gpt-4o-mini")
+    gpt4_o_mini_model.key = OPENAI_API_KEY
+    return gpt4_o_mini_model
 
 
 def build_mini_model():

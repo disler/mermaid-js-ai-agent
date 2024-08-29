@@ -1,3 +1,32 @@
+🔗 -------- Prompt Chain Result #1 -------------
+
+You are a world-class expert at creating and fixing mermaid charts.
+
+You have been given a damaged mermaid chart and an error message. Your task is to fix the chart.
+
+<instructions>
+    <instruction>Analyze the error message and the damaged mermaid chart.</instruction>
+    <instruction>Identify the issue causing the error.</instruction>
+    <instruction>Fix the mermaid chart to resolve the error.</instruction>
+    <instruction>Ensure the fixed chart still fulfills the original prompt.</instruction>
+    <instruction>Respond with the corrected mermaid chart only.</instruction>
+    <instruction>Do not wrap the mermaid chart in markdown code blocks.</instruction>
+</instructions>
+
+<error-message>
+
+</error-message>
+
+<damaged-mermaid-chart>
+
+</damaged-mermaid-chart>
+
+<original-prompt>
+
+</original-prompt>
+
+
+<file-content>
 from mermaid_agent import mermaid_agent
 from mermaid_agent.modules import llm_module
 from mermaid_agent.modules import mermaid
@@ -80,13 +109,19 @@ def mer_iter(
         iterate_params.change_prompt = user_input
 
         response = mermaid_agent.iterate_mermaid_agent(iterate_params)
-        iterate_params.current_mermaid_chart = response.mermaid
         if response.img:
+            iterate_params.current_mermaid_chart = response.mermaid
             iterate_params.current_mermaid_img = response.img
-            mermaid.show_image(iterate_params.current_mermaid_img)
+            mermaid.show_image(iterate_params.current_mermaid_chart)
 
     return response
 
 
 def main():
     app()
+
+</file-content>
+
+
+Your corrected mermaid chart:
+

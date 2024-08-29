@@ -10,26 +10,105 @@ You follow the instructions perfectly to generate mermaid charts.
     <instruction>Use double quotes for text in the chart</instruction>
     <instruction>Respond with the mermaid chart only.</instruction>
     <instruction>Do not wrap the mermaid chart in markdown code blocks. Respond with the mermaid chart only.</instruction>
-    <instruction>If you see a <file-content> section, use the content to help create the chart.</instruction>
+    <instruction>If you see a file-content section, use the content to help create the chart.</instruction>
+    <instruction>Keep node labels short and concise.</instruction>
+    <instruction>Avoid embedding links in the chart.</instruction>
 </instructions>
 
 
 <file-content>
-    # Mermaid Agent
+    from mermaid_agent import mermaid_agent
+from mermaid_agent.modules import llm_module
+from mermaid_agent.modules import mermaid
+from mermaid_agent.modules import chain
+from mermaid_agent.modules.typings import (
+    OneShotMermaidParams,
+    IterateMermaidParams,
+    MermaidAgentResponse,
+)
 
-## Setup
-- Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-- Install dependencies `uv sync`
-- Set your OpenAI API key as an environment variable `export OPENAI_API_KEY=<your_api_key>`
-- Optionally setup 
-  - Optionally set ANTHROPIC_API_KEY, VERTEX_API_KEY, GROQ_API_KEY as environment variables. See `.env.sample` for details.
+import typer
+from jinja2 import Template
+from PIL import Image
 
-## Docs on gemini models
-- https://ai.google.dev/api/models#models_list-SHELL
-- Run this to get the latest models:
-  - `export GOOGLE_API_KEY=<FILL IN HERE>`
-  - `curl "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"`  
+app = typer.Typer()
 
+# Constants for reusable options
+PROMPT_OPTION = typer.Option(
+    ..., "--prompt", "-p", help="The prompt for generating the Mermaid chart"
+)
+OUTPUT_FILE_OPTION = typer.Option(
+    "mermaid.png", "--output", "-o", help="Output file name for the generated chart"
+)
+INPUT_FILE_OPTION = typer.Option(
+    None, "--input", "-i", help="Input file containing additional content"
+)
+
+
+@app.command()
+def test():
+    print("test command")
+
+
+@app.command()
+def mer(
+    prompt: str = PROMPT_OPTION,
+    output_file: str = OUTPUT_FILE_OPTION,
+    input_file: str = INPUT_FILE_OPTION,
+):
+    params = OneShotMermaidParams(
+        prompt=prompt, output_file=output_file, input_file=input_file
+    )
+    response: MermaidAgentResponse = mermaid_agent.one_shot_mermaid_agent(params)
+    if response.img:
+        mermaid.show_image(response.img)
+    return response
+
+
+@app.command()
+def mer_iter(
+    prompt: str = PROMPT_OPTION,
+    output_file: str = OUTPUT_FILE_OPTION,
+    input_file: str = INPUT_FILE_OPTION,
+):
+    params = OneShotMermaidParams(
+        prompt=prompt, output_file=output_file, input_file=input_file
+    )
+    response: MermaidAgentResponse = mermaid_agent.one_shot_mermaid_agent(params)
+    if response.img:
+        mermaid.show_image(response.img)
+    else:
+        raise Exception("Failed to generate Mermaid chart")
+
+    iterate_params = IterateMermaidParams(
+        change_prompt="",
+        base_prompt=prompt,
+        current_mermaid_chart=response.mermaid,
+        current_mermaid_img=response.img,
+        output_file=output_file,
+        input_file=input_file,
+    )
+
+    while True:
+        user_input = input(
+            "Would you like to make any changes? (Enter change request or 'n'/'no'/'e' to exit): "
+        )
+        if user_input.lower() in ["n", "no", "e"]:
+            break
+
+        iterate_params.change_prompt = user_input
+
+        response = mermaid_agent.iterate_mermaid_agent(iterate_params)
+        iterate_params.current_mermaid_chart = response.mermaid
+        if response.img:
+            iterate_params.current_mermaid_img = response.img
+            mermaid.show_image(iterate_params.current_mermaid_img)
+
+    return response
+
+
+def main():
+    app()
 
 </file-content>
 
@@ -125,17 +204,69 @@ If you see any mistakes, be very precise in what the mistakes are.
 </instructions>
 
 <mermaid-chart>
-    ```mermaid
-graph LR
-    subgraph "Setup"
-        A["Install uv"] --> B["Install dependencies: <br> uv sync"]
-        B --> C{"Set OpenAI API key: <br> export OPENAI_API_KEY=<your_api_key>"}
-    end
-    C --> D("Optionally setup <br> other API keys")
-    D --> E("Docs on gemini models")
-    E --> F("Get latest models")
-```
+    graph TD;
+    ty1["mermaid_agent"]
+    ty2["llm_module"]
+    ty3["mermaid"]
+    ty4["chain"]
+    ty5("OneShotMermaidParams")
+    ty6("IterateMermaidParams")
+    ty7("MermaidAgentResponse")
+    ty8["typer"]
+    ty9["TypPr"]
+    tyA["Template"]
+    tyB["Image"]
+    ty10["typer.Typer"]
+    ty11["PROMPT_OPTION"]
+    ty12["OUTPUT_FILE_OPTION"]
+    ty13["INPUT_FILE_OPTION"]
+    ty14["app.command"]
+    ty15["mermaid_agent.one_shot_mermaid_agent"]
+    ty16["mermaid.show_image"]
+    ty17["Exception"]
+    ty18["input"]
+    ty19["mermaid_agent.iterate_mermaid_agent"]
+    ty20["main"]
 
+    ty1 --> ty2
+    ty1 --> ty3
+    ty1 --> ty4
+    ty1 --> ty5
+    ty1 --> ty6
+    ty1 --> ty7
+
+    ty8 --> ty9
+    tyA --> tyB
+
+    ty10
+
+    ty11
+    ty12
+    ty13
+
+    ty14
+    ty15
+
+    ty16
+
+    ty17
+    ty18
+    ty19
+
+    ty20
+
+    ty14 --> ty15
+    ty14 --> ty16
+    ty14 --> ty17
+    ty14 --> ty18
+    ty14 --> ty19
+
+    ty8 --> ty10
+    ty10 --> ty11
+    ty10 --> ty12
+    ty10 --> ty13
+    ty10 --> ty14
+    ty10 --> ty20
 </mermaid-chart>
 
 Your critique of the mermaid chart:

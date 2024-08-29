@@ -1,0 +1,10 @@
+🔗 -------- Prompt Chain Result #1 -------------
+
+```mermaid
+graph TD;
+    A[Start] --> B{Is it working?};
+    B -- Yes --> C[Great!];
+    B -- No --> D[Fix the issue];
+    D --> B;
+```
+

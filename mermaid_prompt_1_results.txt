@@ -1,26 +1,132 @@
 🔗 -------- Prompt Chain Result #1 -------------
 
-```mermaid
-graph LR
-    subgraph "Setup"
-        A["Install uv"] --> B["Install dependencies: <br> uv sync"]
-        B --> C{"Set OpenAI API key: <br> export OPENAI_API_KEY=<your_api_key>"}
-    end
-    C --> D("Optionally setup <br> other API keys")
-    D --> E("Docs on gemini models")
-    E --> F("Get latest models")
-```
+graph TD;
+    ty1["mermaid_agent"]
+    ty2["llm_module"]
+    ty3["mermaid"]
+    ty4["chain"]
+    ty5("OneShotMermaidParams")
+    ty6("IterateMermaidParams")
+    ty7("MermaidAgentResponse")
+    ty8["typer"]
+    ty9["TypPr"]
+    tyA["Template"]
+    tyB["Image"]
+    ty10["typer.Typer"]
+    ty11["PROMPT_OPTION"]
+    ty12["OUTPUT_FILE_OPTION"]
+    ty13["INPUT_FILE_OPTION"]
+    ty14["app.command"]
+    ty15["mermaid_agent.one_shot_mermaid_agent"]
+    ty16["mermaid.show_image"]
+    ty17["Exception"]
+    ty18["input"]
+    ty19["mermaid_agent.iterate_mermaid_agent"]
+    ty20["main"]
 
+    ty1 --> ty2
+    ty1 --> ty3
+    ty1 --> ty4
+    ty1 --> ty5
+    ty1 --> ty6
+    ty1 --> ty7
+
+    ty8 --> ty9
+    tyA --> tyB
+
+    ty10
+
+    ty11
+    ty12
+    ty13
+
+    ty14
+    ty15
+
+    ty16
+
+    ty17
+    ty18
+    ty19
+
+    ty20
+
+    ty14 --> ty15
+    ty14 --> ty16
+    ty14 --> ty17
+    ty14 --> ty18
+    ty14 --> ty19
+
+    ty8 --> ty10
+    ty10 --> ty11
+    ty10 --> ty12
+    ty10 --> ty13
+    ty10 --> ty14
+    ty10 --> ty20
 
 🔗🔗 -------- Prompt Chain Result #2 -------------
 
-graph LR
-    subgraph "Setup"
-        A["Install uv"] --> B["Install dependencies:<br> uv sync"]
-        B --> C{"Set OpenAI API key:<br> export OPENAI_API_KEY=<your_api_key>"}
-    end
-    C --> D("Optionally setup<br> other API keys")
-    D --> E("Docs on Gemini models")
-    E --> F("Get latest models")
+graph TD;
+    ty1["mermaid_agent"]
+    ty2["llm_module"]
+    ty3["mermaid"]
+    ty4["chain"]
+    ty5("OneShotMermaidParams")
+    ty6("IterateMermaidParams")
+    ty7("MermaidAgentResponse")
+    ty8["typer"]
+    ty9["TypPr"]
+    tyA["Template"]
+    tyB["Image"]
+    ty10["typer.Typer"]
+    ty11["PROMPT_OPTION"]
+    ty12["OUTPUT_FILE_OPTION"]
+    ty13["INPUT_FILE_OPTION"]
+    ty14["app.command"]
+    ty15["mermaid_agent.one_shot_mermaid_agent"]
+    ty16["mermaid.show_image"]
+    ty17["Exception"]
+    ty18["input"]
+    ty19["mermaid_agent.iterate_mermaid_agent"]
+    ty20["main"]
 
+    ty1 --> ty2
+    ty1 --> ty3
+    ty1 --> ty4
+    ty1 --> ty5
+    ty1 --> ty6
+    ty1 --> ty7
+
+    ty8 --> ty9
+    tyA --> tyB
+
+    ty10
+
+    ty11
+    ty12
+    ty13
+
+    ty14
+    ty15
+
+    ty16
+
+    ty17
+    ty18
+    ty19
+
+    ty20
+
+    ty14 --> ty15
+    ty14 --> ty16
+    ty14 --> ty17
+    ty14 --> ty18
+    ty14 --> ty19
+
+    ty8 --> ty10
+    ty10 --> ty11
+    ty10 --> ty12
+    ty10 --> ty13
+    ty10 --> ty14
+    ty10 --> ty20
 

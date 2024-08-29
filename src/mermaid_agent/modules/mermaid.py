@@ -1,4 +1,5 @@
 import base64
+from typing import Optional
 import requests
 from PIL import Image, UnidentifiedImageError
 import io
@@ -42,10 +43,12 @@ def show_image(img):
         print("Error: No image to display")
 
 
-def mm(graph, filename="mermaid_graph.png"):
+def mm(graph, filename="mermaid_graph.png") -> Optional[Image.Image]:
     img = build_image(graph, filename)
     if img:
         save_image_locally(img, filename)
-        show_image(img)
+        return img
     else:
         print("Error: Failed to generate Mermaid diagram")
+
+    return None
