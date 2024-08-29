@@ -10,6 +10,9 @@ dependencies = [
     "pydantic>=2.8.2",
     "pillow>=10.4.0",
     "requests>=2.32.3",
+    "llm>=0.15",
+    "pytest>=8.3.2",
+    "llm-gemini>=0.1a4",
 ]
 
 [build-system]

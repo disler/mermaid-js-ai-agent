@@ -2,6 +2,8 @@ import base64
 import requests
 from PIL import Image, UnidentifiedImageError
 import io
+
+from mermaid_agent.modules.llm_module import build_gemini_duo
 from . import examples as ex
 
 
@@ -43,8 +45,18 @@ def mm(graph, filename="mermaid_graph.png"):
 
 
 def main():
-    mm(ex.graph, "graph.png")
-    mm(ex.pie_chart, "pie_chart.png")
-    mm(ex.sequence_diagram, "sequence_diagram.png")
-    mm(ex.gantt_chart, "gantt_chart.png")
-    mm(ex.class_diagram, "class_diagram.png")
+    # mm(ex.graph, "graph.png")
+    # mm(ex.pie_chart, "pie_chart.png")
+    # mm(ex.sequence_diagram, "sequence_diagram.png")
+    # mm(ex.gantt_chart, "gantt_chart.png")
+    # mm(ex.class_diagram, "class_diagram.png")
+
+    gemini_1_5_pro, gemini_1_5_flash = build_gemini_duo()
+
+    res = gemini_1_5_flash.prompt("Hello, how are you?").text()
+
+    print(res)
+
+
+if __name__ == "__main__":
+    main()

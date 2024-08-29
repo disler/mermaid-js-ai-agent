@@ -1,3 +1,4 @@
+# This graph illustrates a simple relationship between nodes A, B, C, D, and E, showing how each node is connected to others.
 graph = """
 graph LR;
     A--> B & C & D;
@@ -7,6 +8,7 @@ graph LR;
     E--> B & C & D;
 """
 
+# This pie chart illustrates sales by product, with Product A accounting for 40%, Product B for 30%, Product C for 20%, and Product D for 10%.
 pie_chart = """
 pie
     title Sales by Product
@@ -16,6 +18,7 @@ pie
     "Product D": 10
 """
 
+# This sequence diagram illustrates a conversation between Alice and Bob, with a loop for John's healthcheck.
 sequence_diagram = """
 sequenceDiagram
     participant Alice
@@ -30,6 +33,7 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 """
 
+# This Gantt chart illustrates a project schedule with two sections, showing the start date, duration, and completion status of tasks.
 gantt_chart = """
 gantt
     title A Gantt Diagram
@@ -42,6 +46,7 @@ gantt
     another task     : 24d
 """
 
+# This class diagram illustrates an Animal hierarchy with Duck, Fish, and Zebra subclasses, showing their attributes and methods.
 class_diagram = """
 classDiagram
     Animal <|-- Duck
