@@ -21,3 +21,10 @@
   - `export GOOGLE_API_KEY=<FILL IN HERE>`
   - `curl "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"`  
 
+
+## Resources
+- https://mermaid.ink/
+- https://www.makotemplates.org/
+- https://pypi.org/project/Mako/
+- https://docs.astral.sh/uv/getting-started/features/#python-versions
+- https://mermaid.js.org/syntax/examples.html
