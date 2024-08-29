@@ -20,7 +20,7 @@ class OneShotMermaidParams(BaseModel):
 class ResolutionMermaidParams(BaseModel):
     error: str
     damaged_mermaid_chart: str
-    prompt: str
+    base_prompt: str
     output_file: str
     input_file: Optional[str] = None
 

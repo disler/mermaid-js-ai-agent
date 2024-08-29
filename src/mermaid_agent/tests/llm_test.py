@@ -1,14 +1,14 @@
 import pytest
 from mermaid_agent.modules.llm_module import (
     build_gemini_duo,
-    build_models,
+    build_sonnet_3_5,
     build_big_3_models,
 )
 
 
 def test_sonnet_3_5_model():
     # Build the models
-    sonnet_3_5_model = build_models()
+    sonnet_3_5_model = build_sonnet_3_5()
 
     # Define a simple prompt
     test_prompt = "What is the capital of France?"

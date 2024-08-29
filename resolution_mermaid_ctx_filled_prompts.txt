@@ -109,10 +109,10 @@ def mer_iter(
         iterate_params.change_prompt = user_input
 
         response = mermaid_agent.iterate_mermaid_agent(iterate_params)
+        iterate_params.current_mermaid_chart = response.mermaid
         if response.img:
-            iterate_params.current_mermaid_chart = response.mermaid
             iterate_params.current_mermaid_img = response.img
-            mermaid.show_image(iterate_params.current_mermaid_chart)
+            mermaid.show_image(iterate_params.current_mermaid_img)
 
     return response
 

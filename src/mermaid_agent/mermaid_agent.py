@@ -12,6 +12,7 @@ from PIL import Image
 
 
 def build_model():
+    # return llm_module.build_sonnet_3_5()
     return llm_module.build_latest_openai()
     # return llm_module.build_mini_model()
 
@@ -20,7 +21,7 @@ def one_shot_mermaid_agent(params: OneShotMermaidParams) -> MermaidAgentResponse
 
     model = build_model()
 
-    prompt = params.prompt
+    base_prompt = params.prompt
     output_file = params.output_file
     input_file = params.input_file
 
@@ -44,11 +45,11 @@ You follow the instructions perfectly to generate mermaid charts.
     <instruction>Avoid embedding links in the chart.</instruction>
 </instructions>
 
-[~ if file_content ~]
+% if file_content:
 <file-content>
-    {{file_content}}
+    ${file_content}
 </file-content>
-[~ endif ~]
+% endif
 
 <examples>
     <example>
@@ -116,7 +117,7 @@ You follow the instructions perfectly to generate mermaid charts.
 </examples>
 
 <user-prompt>
-    {{ user_prompt }}
+    {{user_prompt}}
 </user-prompt>
 
 Your mermaid chart:"""
@@ -131,7 +132,7 @@ If you see any mistakes, be very precise in what the mistakes are.
 
 <instructions>
     <instruction>Review the chart to ensure it's correct.</instruction>
-    <instruction>Be very precise in your critique.</instruction>
+    <instruction>Be very precise in your correction.</instruction>
     <instruction>If you see any mistakes, correct them.</instruction>
     <instruction>Respond with the corrected mermaid chart.</instruction>
     <instruction>Do not wrap the mermaid chart in markdown code blocks. Respond with the mermaid chart only.</instruction>
@@ -142,14 +143,20 @@ If you see any mistakes, be very precise in what the mistakes are.
     {{output[-1]}}
 </mermaid-chart>
 
-Your critique of the mermaid chart:"""
+Your correction of the mermaid chart if needed:"""
 
-    context = {"user_prompt": prompt, "file_content": file_content}
+    context = {"user_prompt": base_prompt, "file_content": file_content}
 
     # Render the template with the context
-    rendered_mermaid_prompt_1 = llm_module.jinja_cond_render(
+    rendered_mermaid_prompt_1 = llm_module.conditional_render(
         mermaid_prompt_1, {"file_content": file_content}
     )
+
+    chain.MinimalChainable.to_delim_text_file(
+        "rendered_mermaid_prompt_1", [rendered_mermaid_prompt_1]
+    )
+
+    print("context", context.get("user_prompt"))
 
     prompt_response, ctx_filled_prompts = chain.MinimalChainable.run(
         context,
@@ -177,7 +184,7 @@ Your critique of the mermaid chart:"""
             resolution_params = ResolutionMermaidParams(
                 error="Error: Failed to generate Mermaid diagram",
                 damaged_mermaid_chart=res,
-                prompt=prompt,
+                base_prompt=base_prompt,
                 output_file=output_file,
                 input_file=input_file,
             )
@@ -195,7 +202,7 @@ def resolution_mermaid_agent(params: ResolutionMermaidParams) -> MermaidAgentRes
 
     error = params.error
     damaged_mermaid_chart = params.damaged_mermaid_chart
-    prompt = params.prompt
+    prompt = params.base_prompt
     output_file = params.output_file
     input_file = params.input_file
 
@@ -229,11 +236,11 @@ You have been given a damaged mermaid chart and an error message. Your task is t
 {{prompt}}
 </original-prompt>
 
-[~ if file_content ~]
+% if file_content:
 <file-content>
-{{file_content}}
+${file_content}
 </file-content>
-[~ endif ~]
+% endif
 
 Your corrected mermaid chart:"""
 
@@ -245,7 +252,7 @@ Your corrected mermaid chart:"""
     }
 
     # Render the template with the context
-    rendered_correction_prompt = llm_module.jinja_cond_render(
+    rendered_correction_prompt = llm_module.conditional_render(
         correction_prompt, {"file_content": file_content}
     )
 
@@ -307,11 +314,11 @@ You have been given a current mermaid chart and a request for changes. Your task
 {{change_prompt}}
 </change-request>
 
-[~ if file_content ~]
+% if file_content:
 <file-content>
-{{file_content}}
+${file_content}
 </file-content>
-[~ endif ~]
+% endif
 
 Your updated mermaid chart:"""
 
@@ -350,7 +357,7 @@ Your final mermaid chart:"""
     }
 
     # Render the templates with the context
-    rendered_iteration_prompt_1 = llm_module.jinja_cond_render(
+    rendered_iteration_prompt_1 = llm_module.conditional_render(
         iteration_prompt_1, {"file_content": file_content}
     )
     rendered_iteration_prompt_2 = iteration_prompt_2

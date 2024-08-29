@@ -15,6 +15,8 @@ dependencies = [
     "llm-gemini>=0.1a4",
     "typer>=0.12.5",
     "jinja2>=3.1.4",
+    "llm-claude-3>=0.4",
+    "mako>=1.3.5",
 ]
 
 [build-system]

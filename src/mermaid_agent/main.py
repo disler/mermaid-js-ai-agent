@@ -55,11 +55,21 @@ def mer_iter(
     params = OneShotMermaidParams(
         prompt=prompt, output_file=output_file, input_file=input_file
     )
+
+    if not params.prompt.strip():
+        raise Exception("Prompt is required")
+
+    print(f"Prompt: {params.prompt}")
+    print(f"Output file: {params.output_file}")
+    print(f"Input file: {params.input_file}")
+
     response: MermaidAgentResponse = mermaid_agent.one_shot_mermaid_agent(params)
     if response.img:
         mermaid.show_image(response.img)
     else:
         raise Exception("Failed to generate Mermaid chart")
+
+    print(f"BUILT one shot mermaid chart: {response}")
 
     iterate_params = IterateMermaidParams(
         change_prompt="",

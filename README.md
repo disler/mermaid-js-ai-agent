@@ -1,5 +1,11 @@
 # Mermaid Agent
 
+## Next
+- session ids + output dir
+- testing
+- cool use cases
+- integration into IDT?
+
 ## Setup
 - Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Install dependencies `uv sync`

@@ -140,44 +140,20 @@ Your co-worker has just updated a mermaid chart based on requested changes. Your
 </instructions>
 
 <updated-mermaid-chart>
-```mermaid
 sequenceDiagram
-    participant User
-    participant Application
-    participant MermaidAgent
-    participant LLM_Module
-    participant ImageProcessor
+    participant C as Client
+    participant S as Server
+    participant D as Database
 
-    User->>Application: Run the "mer" command
-    Application->>MermaidAgent: one_shot_mermaid_agent(params)
-    MermaidAgent->>LLM_Module: Generate Mermaid Chart
-    LLM_Module->>MermaidAgent: Return Mermaid Chart
-    MermaidAgent->>ImageProcessor: Convert Mermaid to Image
-    ImageProcessor->>MermaidAgent: Return Image
-    MermaidAgent->>Application: Response with Mermaid Chart and Image
-    Application-->>User: Display Generated Image
+    C->>S: Request
+    activate S
+    S-->>C: Response
+    deactivate S
 
-    User->>Application: Run the "mer_iter" command
-    Application->>MermaidAgent: one_shot_mermaid_agent(params)
-    MermaidAgent->>ImageProcessor: Convert Mermaid to Image
-    ImageProcessor->>MermaidAgent: Return Image
-    MermaidAgent->>Application: Response with Mermaid Chart and Image
-    Application-->>User: Display Generated Image
-
-    loop User Modifications
-        User->>Application: Enter change request
-        Application->>MermaidAgent: iterate_mermaid_agent(iterate_params)
-        MermaidAgent->>LLM_Module: Update Mermaid Chart
-        LLM_Module->>MermaidAgent: Return Updated Chart
-        MermaidAgent->>ImageProcessor: Convert Updated Mermaid to Image
-        ImageProcessor->>MermaidAgent: Return New Image
-        MermaidAgent->>Application: Response with Updated Chart and Image
-        Application-->>User: Display Updated Image
-    end
-
-    User->>Application: Exit Iteration
-```
-
+    S->>D: Query
+    activate D
+    D-->>S: Result
+    deactivate D
 </updated-mermaid-chart>
 
 <base-prompt>
@@ -185,7 +161,7 @@ create a state diagram explaining how the mer_iter function works
 </base-prompt>
 
 <change-request>
-focus on the high level
+simplify, focus on the code flow of mer_iter
 </change-request>
 
 Your final mermaid chart:

@@ -187,45 +187,8 @@ def main():
 </examples>
 
 <user-prompt>
-    create a state diagram explaining how the mer_iter function works
+    {{user_prompt}}
 </user-prompt>
 
 Your mermaid chart:
-
-🔗🔗 -------- Prompt Chain Result #2 -------------
-
-You are a world-class expert at creating mermaid charts.
-
-Your co-worker has just generated a mermaid chart.
-
-It's your job to review the chart to ensure it's correct.
-
-If you see any mistakes, be very precise in what the mistakes are.
-
-<instructions>
-    <instruction>Review the chart to ensure it's correct.</instruction>
-    <instruction>Be very precise in your correction.</instruction>
-    <instruction>If you see any mistakes, correct them.</instruction>
-    <instruction>Respond with the corrected mermaid chart.</instruction>
-    <instruction>Do not wrap the mermaid chart in markdown code blocks. Respond with the mermaid chart only.</instruction>
-    <instruction>If the chart is already correct, respond with the chart only.</instruction>
-</instructions>
-
-<mermaid-chart>
-    stateDiagram-v2
-    [*] --> Start
-    Start --> InitializeParams : Initialize Parameters
-    InitializeParams --> CheckPrompt : Check Prompt
-    CheckPrompt --> GenerateChart : Valid Prompt
-    CheckPrompt --> Error : Invalid Prompt
-    GenerateChart --> ShowImage : Generate & Show Image
-    ShowImage --> UserInput : Get User Input
-    UserInput --> Exit : User Exits ('n', 'no', 'e')
-    UserInput --> IterateParams : User Requests Changes
-    IterateParams --> GenerateChart
-    Exit --> [*]
-    Error --> [*]
-</mermaid-chart>
-
-Your correction of the mermaid chart if needed:
 
