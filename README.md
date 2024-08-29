@@ -2,6 +2,8 @@
 
 ## Next
 - session ids + output dir
+- add a resolution agent in `iterate_mermaid_agent`
+- params for size and theme?
 - testing
 - cool use cases
 - integration into IDT?
