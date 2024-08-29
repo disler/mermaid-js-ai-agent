@@ -1,0 +1,20 @@
+[project]
+name = "mermaid-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.42.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.8.2",
+    "pillow>=10.4.0",
+    "requests>=2.32.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+main = "mermaid_agent.main:main"
