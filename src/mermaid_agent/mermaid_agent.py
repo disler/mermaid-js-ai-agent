@@ -7,6 +7,8 @@ from mermaid_agent.modules.typings import (
     ResolutionMermaidParams,
     IterateMermaidParams,
     MermaidAgentResponse,
+    BulkMermaidParams,
+    BulkMermaidAgentResponse,
 )
 from PIL import Image
 
@@ -272,6 +274,20 @@ Your corrected mermaid chart:"""
     img = mermaid.mm(res, output_file)
 
     return MermaidAgentResponse(img=img, mermaid=res)
+
+
+def bulk_mermaid_agent(params: BulkMermaidParams) -> BulkMermaidAgentResponse:
+    responses = []
+    for i in range(params.count):
+        one_shot_params = OneShotMermaidParams(
+            prompt=params.prompt,
+            output_file=f"{i+1}_{params.output_file}",
+            input_file=params.input_file
+        )
+        response = one_shot_mermaid_agent(one_shot_params)
+        responses.append(response)
+    
+    return BulkMermaidAgentResponse(responses=responses)
 
 
 def iterate_mermaid_agent(params: IterateMermaidParams) -> MermaidAgentResponse:

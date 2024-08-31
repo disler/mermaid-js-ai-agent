@@ -6,11 +6,15 @@ from mermaid_agent.modules.typings import (
     OneShotMermaidParams,
     IterateMermaidParams,
     MermaidAgentResponse,
+    BulkMermaidParams,
+    BulkMermaidAgentResponse,
 )
 
+import os
 import typer
 from jinja2 import Template
 from PIL import Image
+from mermaid_agent.modules.utils import build_file_path, current_date_time_str
 
 app = typer.Typer()
 
@@ -68,6 +72,17 @@ def mer_iter(
 
     print(f"BUILT one shot mermaid chart: {response}")
 
+    # Create a directory for this iteration session
+    session_dir = build_file_path(f"iter_session_{current_date_time_str()}")
+    os.makedirs(session_dir, exist_ok=True)
+
+    # Save the initial chart
+    iteration_count = 0
+    initial_output_file = os.path.join(
+        session_dir, f"iteration_{iteration_count}_{output_file}"
+    )
+    response.img.save(initial_output_file)
+
     iterate_params = IterateMermaidParams(
         change_prompt="",
         base_prompt=prompt,
@@ -92,6 +107,31 @@ def mer_iter(
             iterate_params.current_mermaid_img = response.img
             mermaid.show_image(iterate_params.current_mermaid_img)
 
+            iteration_count += 1
+            iteration_output_file = os.path.join(
+                session_dir, f"iteration_{iteration_count}_{output_file}"
+            )
+            response.img.save(iteration_output_file)
+
+    return response
+
+
+@app.command()
+def mer_bulk(
+    prompt: str = PROMPT_OPTION,
+    output_file: str = OUTPUT_FILE_OPTION,
+    input_file: str = INPUT_FILE_OPTION,
+    count: int = typer.Option(5, "--count", "-c", help="Number of diagrams to generate"),
+) -> BulkMermaidAgentResponse:
+    """Generates multiple Mermaid charts in one shot."""
+    params = BulkMermaidParams(
+        prompt=prompt, output_file=output_file, input_file=input_file, count=count
+    )
+    response: BulkMermaidAgentResponse = mermaid_agent.bulk_mermaid_agent(params)
+    for i, res in enumerate(response.responses):
+        if res.img:
+            mermaid.show_image(res.img)
+            print(f"Generated diagram {i+1}/{count}")
     return response
 
 

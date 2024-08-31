@@ -36,8 +36,17 @@ class IterateMermaidParams(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
+class BulkMermaidParams(BaseModel):
+    prompt: str
+    output_file: str
+    input_file: Optional[str] = None
+    count: int
+
 class MermaidAgentResponse(BaseModel):
     img: Optional[Image.Image]
     mermaid: Optional[str]
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
+
+class BulkMermaidAgentResponse(BaseModel):
+    responses: List[MermaidAgentResponse]

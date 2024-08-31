@@ -3,6 +3,7 @@ from typing import Optional
 import requests
 from PIL import Image, UnidentifiedImageError
 import io
+from mermaid_agent.modules.utils import build_file_path
 
 
 def build_image(graph, filename):
@@ -18,7 +19,7 @@ def build_image(graph, filename):
     url = (
         "https://mermaid.ink/img/"
         + base64_string
-        + f"?width={width}&height={height}&scale={scale}&theme={theme}"
+        + f"?width={width}&height={height}&scale={scale}&theme={theme}&bgColor=2a303c"
     )
 
     response = requests.get(url)
@@ -45,7 +46,8 @@ def show_image(img):
 def mm(graph, filename) -> Optional[Image.Image]:
     img = build_image(graph, filename)
     if img:
-        save_image_locally(img, filename)
+        output_path = build_file_path(filename)
+        save_image_locally(img, output_path)
         return img
     else:
         return None

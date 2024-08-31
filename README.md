@@ -15,11 +15,10 @@
   - `uv run main mer -p "pie chart title: 'Time Spent on Project Tasks', 'Coding': 40, 'Testing': 25, 'Documentation': 20, 'Meetings': 15" -o "project_time_allocation.png"`
 - ✅ To run an interactive generation:
   - `uv run main mer-iter -p "Flowchart of ##setup instructions" -o "setup_diagram.png" -i "./README.md"` 
-- 🟡 To run a bulk-version based iteration
+- ✅ To run a bulk-version based iteration
   - `uv run main mer-bulk -p "Flowchart of ##setup instructions" -o "setup_diagram.png" -i "./README.md" -c 5` 
 
 ## Next
-- [🟡] add bulk diagram generation
 - [] session ids
 - [] multiple input files
 - [] params for size and theme?
