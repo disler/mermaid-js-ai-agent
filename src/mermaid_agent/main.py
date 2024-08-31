@@ -31,7 +31,8 @@ def mer(
     prompt: str = PROMPT_OPTION,
     output_file: str = OUTPUT_FILE_OPTION,
     input_file: str = INPUT_FILE_OPTION,
-):
+) -> MermaidAgentResponse:
+    """Generates a Mermaid chart in one shot."""
     params = OneShotMermaidParams(
         prompt=prompt, output_file=output_file, input_file=input_file
     )
@@ -46,7 +47,8 @@ def mer_iter(
     prompt: str = PROMPT_OPTION,
     output_file: str = OUTPUT_FILE_OPTION,
     input_file: str = INPUT_FILE_OPTION,
-):
+) -> MermaidAgentResponse:
+    """Generates a Mermaid chart iteratively, allowing for user refinement."""
     params = OneShotMermaidParams(
         prompt=prompt, output_file=output_file, input_file=input_file
     )
@@ -94,4 +96,5 @@ def mer_iter(
 
 
 def main():
+    """Entry point for the Mermaid agent CLI."""
     app()
