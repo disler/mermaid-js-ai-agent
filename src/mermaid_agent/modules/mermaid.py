@@ -2,27 +2,32 @@ import base64
 from typing import Optional
 import requests
 from PIL import Image, UnidentifiedImageError
-from io import BytesIO
+import io
 
 
-def build_image(graph, filename) -> Optional[Image.Image]:
-    graphbytes = graph.encode("ascii")
+def build_image(graph, filename):
+    graphbytes = graph.encode("utf8")
     base64_bytes = base64.b64encode(graphbytes)
     base64_string = base64_bytes.decode("ascii")
-    url = "https://mermaidapi.com/api/v1"
-    body = {"mermaid": graph, "base64": base64_string}
+
+    width = 500
+    height = 500
+    scale = 2
+    theme = "default"  # Options: "default", "neutral", "dark", "forest", "base"
+
+    url = (
+        "https://mermaid.ink/img/"
+        + base64_string
+        + f"?width={width}&height={height}&scale={scale}&theme={theme}"
+    )
+
+    response = requests.get(url)
     try:
-        response = requests.post(url, json=body)
-        response.raise_for_status()
-        image_data = response.content
-        try:
-            img = Image.open(BytesIO(image_data))
-            return img
-        except UnidentifiedImageError:
-            print(f"Error: Could not open image from {filename}")
-            return None
-    except requests.exceptions.RequestException as e:
-        print(f"Error: Could not generate Mermaid diagram: {e}")
+        return Image.open(io.BytesIO(response.content))
+    except UnidentifiedImageError:
+        print(
+            f"Error: Unable to identify the image. The Mermaid diagram might be invalid. '{filename}'"
+        )
         return None
 
 
@@ -35,7 +40,7 @@ def show_image(img):
         img.show()
     else:
         print("Error: No image to display")
-    
+
 
 def mm(graph, filename) -> Optional[Image.Image]:
     img = build_image(graph, filename)
