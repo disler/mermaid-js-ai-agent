@@ -8,13 +8,12 @@ import io
 def build_image(graph, filename):
     graphbytes = graph.encode("utf8")
     base64_bytes = base64.b64encode(graphbytes)
-    print("base64_bytes", base64_bytes)
     base64_string = base64_bytes.decode("ascii")
 
     width = 500
     height = 500
     scale = 2
-    theme = "neutral"  # Options: "default", "neutral", "dark", "forest", "base"
+    theme = "default"  # Options: "default", "neutral", "dark", "forest", "base"
 
     url = (
         "https://mermaid.ink/img/"
