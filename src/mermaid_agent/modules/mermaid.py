@@ -13,7 +13,7 @@ def build_image(graph, filename):
     width = 500
     height = 500
     scale = 2
-    theme = "default"  # Options: "default", "neutral", "dark", "forest", "base"
+    theme = "dark"  # Options: "default", "neutral", "dark", "forest", "base"
 
     url = (
         "https://mermaid.ink/img/"

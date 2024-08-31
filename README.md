@@ -1,11 +1,7 @@
 # Mermaid Diagram AI Agent
 > Communicate your work with diagrams in seconds with GenAI + Mermaid
 
-## Next
-- [🟡] add bulk diagram generation
-- [] session ids + output dir
-- [] params for size and theme?
-- [] integration into idt?
+![Command Diagram](./imgs/mermaid_ai_agent.png)
 
 ## Setup
 - Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
@@ -22,10 +18,17 @@
 - 🟡 To run a bulk-version based iteration
   - `uv run main mer-bulk -p "Flowchart of ##setup instructions" -o "setup_diagram.png" -i "./README.md" -c 5` 
 
+## Next
+- [🟡] add bulk diagram generation
+- [] session ids
+- [] multiple input files
+- [] params for size and theme?
+- [] integration into idt?
+
 ## Resources
 - https://mermaid.ink/
 - https://www.makotemplates.org/
 - https://pypi.org/project/Mako/
 - https://docs.astral.sh/uv/getting-started/features/#python-versions
 - https://mermaid.js.org/syntax/examples.html
-- https://ai.google.dev/api/models#models_list-**SHELL**
+- https://ai.google.dev/api/models#models_list-shell
