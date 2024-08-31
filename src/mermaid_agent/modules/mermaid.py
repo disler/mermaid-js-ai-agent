@@ -3,6 +3,7 @@ from typing import Optional
 import requests
 from PIL import Image, UnidentifiedImageError
 import io
+from . import utils  # Import the utils module
 
 
 def build_image(graph, filename):
@@ -45,7 +46,9 @@ def show_image(img):
 def mm(graph, filename="mermaid_graph.png") -> Optional[Image.Image]:
     img = build_image(graph, filename)
     if img:
-        save_image_locally(img, filename)
+        # Use utils.build_file_path to construct the save path
+        save_path = utils.build_file_path(filename)
+        save_image_locally(img, save_path)
         return img
     else:
         print("Error: Failed to generate Mermaid diagram")
