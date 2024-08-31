@@ -1,5 +1,5 @@
 from typing import Optional
-from mermaid_agent.modules import llm_module
+from mermaid_agent.modules import llm_module, utils
 from mermaid_agent.modules import mermaid
 from mermaid_agent.modules import chain
 from mermaid_agent.modules.typings import (
@@ -153,10 +153,8 @@ Your correction of the mermaid chart if needed:"""
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "rendered_mermaid_prompt_1", [rendered_mermaid_prompt_1]
+        utils.build_file_path("rendered_mermaid_prompt_1"), [rendered_mermaid_prompt_1]
     )
-
-    print("context", context.get("user_prompt"))
 
     prompt_response, ctx_filled_prompts = chain.MinimalChainable.run(
         context,
@@ -166,11 +164,11 @@ Your correction of the mermaid chart if needed:"""
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "mermaid_prompt_1_results", prompt_response
+        utils.build_file_path("mermaid_prompt_1_results"), prompt_response
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "mermaid_prompt_1_ctx_filled_prompts", ctx_filled_prompts
+        utils.build_file_path("mermaid_prompt_1_ctx_filled_prompts"), ctx_filled_prompts
     )
 
     res = llm_module.parse_markdown_backticks(prompt_response[-1])
@@ -261,11 +259,12 @@ Your corrected mermaid chart:"""
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "resolution_mermaid_results", prompt_response
+        utils.build_file_path("resolution_mermaid_results"), prompt_response
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "resolution_mermaid_ctx_filled_prompts", ctx_filled_prompts
+        utils.build_file_path("resolution_mermaid_ctx_filled_prompts"),
+        ctx_filled_prompts,
     )
 
     res = llm_module.parse_markdown_backticks(prompt_response[-1])
@@ -370,11 +369,12 @@ Your final mermaid chart:"""
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "iteration_mermaid_results", prompt_response
+        utils.build_file_path("iteration_mermaid_results"), prompt_response
     )
 
     chain.MinimalChainable.to_delim_text_file(
-        "iteration_mermaid_ctx_filled_prompts", ctx_filled_prompts
+        utils.build_file_path("iteration_mermaid_ctx_filled_prompts"),
+        ctx_filled_prompts,
     )
 
     res = llm_module.parse_markdown_backticks(prompt_response[-1])

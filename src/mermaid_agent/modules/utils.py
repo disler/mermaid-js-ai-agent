@@ -3,9 +3,17 @@ import json
 import os
 from typing import Union, Dict, List
 
+OUTPUT_DIR = "output"
 
-def build_file_name(name: str, session_id: str):
-    session_dir = f"output/{session_id}"
+
+def build_file_path(name: str):
+    session_dir = f"{OUTPUT_DIR}"
+    os.makedirs(session_dir, exist_ok=True)
+    return os.path.join(session_dir, f"{name}")
+
+
+def build_file_name_session(name: str, session_id: str):
+    session_dir = f"{OUTPUT_DIR}/{session_id}"
     os.makedirs(session_dir, exist_ok=True)
     return os.path.join(session_dir, f"{name}")
 

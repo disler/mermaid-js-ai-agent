@@ -27,11 +27,6 @@ INPUT_FILE_OPTION = typer.Option(
 
 
 @app.command()
-def test():
-    print("test command")
-
-
-@app.command()
 def mer(
     prompt: str = PROMPT_OPTION,
     output_file: str = OUTPUT_FILE_OPTION,
