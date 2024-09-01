@@ -6,6 +6,7 @@
 ## Setup
 > Image generated WITH this tool!
 ![Setup](./imgs/setup.png)
+
 - Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Install dependencies `uv sync`
 - Set your OpenAI API key as an environment variable `export OPENAI_API_KEY=<your_api_key>`
