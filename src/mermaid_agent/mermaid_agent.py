@@ -14,6 +14,7 @@ from PIL import Image
 
 
 def build_model():
+    # see llm_module.py for model options
     # return llm_module.build_sonnet_3_5()
     return llm_module.build_latest_openai()
     # return llm_module.build_mini_model()
@@ -282,11 +283,11 @@ def bulk_mermaid_agent(params: BulkMermaidParams) -> BulkMermaidAgentResponse:
         one_shot_params = OneShotMermaidParams(
             prompt=params.prompt,
             output_file=f"{i+1}_{params.output_file}",
-            input_file=params.input_file
+            input_file=params.input_file,
         )
         response = one_shot_mermaid_agent(one_shot_params)
         responses.append(response)
-    
+
     return BulkMermaidAgentResponse(responses=responses)
 
 

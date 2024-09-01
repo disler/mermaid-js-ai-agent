@@ -67,6 +67,8 @@ def build_big_3_models():
 
 def build_latest_openai():
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+    # chatgpt_4o_latest_model: llm.Model = llm.get_model("chatgpt-4o-latest") - experimental
     chatgpt_4o_latest_model: llm.Model = llm.get_model("gpt-4o-2024-08-06")
     chatgpt_4o_latest_model.key = OPENAI_API_KEY
     return chatgpt_4o_latest_model
@@ -100,50 +102,13 @@ def build_big_3_plus_mini_models():
     )
 
 
-def build_all_gemini_models():
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-    gemini_1_5_pro_latest: llm.Model = llm.get_model("gemini-1.5-pro-latest")
-    gemini_1_5_pro_001: llm.Model = llm.get_model("gemini-1.5-pro-001")
-    gemini_1_5_pro: llm.Model = llm.get_model("gemini-1.5-pro")
-    gemini_1_5_pro_exp_0801: llm.Model = llm.get_model("gemini-1.5-pro-exp-0801")
-    gemini_1_5_pro_exp_0827: llm.Model = llm.get_model("gemini-1.5-pro-exp-0827")
-    gemini_1_5_flash_latest: llm.Model = llm.get_model("gemini-1.5-flash-latest")
-    gemini_1_5_flash_001: llm.Model = llm.get_model("gemini-1.5-flash-001")
-    gemini_1_5_flash: llm.Model = llm.get_model("gemini-1.5-flash")
-    gemini_1_5_flash_exp_0827: llm.Model = llm.get_model("gemini-1.5-flash-exp-0827")
-    gemini_1_5_flash_8b_exp_0827: llm.Model = llm.get_model(
-        "gemini-1.5-flash-8b-exp-0827"
-    )
-
-    models = [
-        gemini_1_5_pro_latest,
-        gemini_1_5_pro_001,
-        gemini_1_5_pro,
-        gemini_1_5_pro_exp_0801,
-        gemini_1_5_pro_exp_0827,
-        gemini_1_5_flash_latest,
-        gemini_1_5_flash_001,
-        gemini_1_5_flash,
-        gemini_1_5_flash_exp_0827,
-        gemini_1_5_flash_8b_exp_0827,
-    ]
-
-    for model in models:
-        model.key = GEMINI_API_KEY
-
-    return models
-
-
 def build_gemini_duo():
     gemini_1_5_pro: llm.Model = llm.get_model("gemini-1.5-pro-latest")
     gemini_1_5_flash: llm.Model = llm.get_model("gemini-1.5-flash-latest")
-    # gemini_1_5_flash_8b: llm.Model = llm.get_model("gemini-1.5-flash-8b-latest")
 
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
     gemini_1_5_pro.key = GEMINI_API_KEY
     gemini_1_5_flash.key = GEMINI_API_KEY
-    # gemini_1_5_flash_8b.key = GEMINI_API_KEY
 
     return gemini_1_5_pro, gemini_1_5_flash
